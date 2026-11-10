@@ -20,7 +20,7 @@ const body = Jost({
 
 // Browser tab title and description
 export const metadata: Metadata = {
-  title: `${wedding.partnerOne} & ${wedding.partnerTwo} | Wedding Photos`,
+  title: `${wedding.hashtag} | Wedding Photos`,
   description: "Share and view photos from our wedding day.",
 };
 

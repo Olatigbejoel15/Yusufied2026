@@ -1,7 +1,8 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
+import Link from "next/link";
 import Countdown from "../components/Countdown";
 import GalleryPreview from "../components/GalleryPreview";
+import HeroCarousel from "../components/HeroCarousel";
 import QrCard from "../components/QrCard";
 import Reveal from "../components/Reveal";
 import WeddingAnimation from "../components/WeddingAnimation";
@@ -48,61 +49,61 @@ export default function HomePage() {
         Upload photos
       </Link>
 
-      {/* Hero: first thing guests see */}
-      <section
-        className="flex min-h-[90vh] flex-col items-center justify-center px-6 py-16 text-center"
-        style={{ background: "radial-gradient(ellipse at top, #efe6cc 0%, #faf7ee 65%)" }} // Soft champagne glow
-      >
-        <WeddingAnimation /> {/* Bride and groom animation */}
+      {/* Hero: photo carousel behind the text (bg-ink is the fallback if no photos load) */}
+      <section className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden bg-ink px-6 py-20 text-center text-cream">
+        <HeroCarousel /> {/* Photos fade behind everything else */}
 
-        <p className="mt-4 text-xs uppercase tracking-[0.35em] text-gold">Join us in celebrating</p>
+        <div className="relative z-10 flex flex-col items-center"> {/* z-10 keeps the text above the photos */}
+          <p className="text-xs uppercase tracking-[0.35em] text-[#e6cf9f]">Join us in celebrating</p>
 
-        <h1 className="mt-6 font-display text-6xl leading-tight sm:text-8xl">
-          {wedding.partnerOne}
-          <span className="mx-3 font-light italic text-gold">&</span>
-          {wedding.partnerTwo}
-        </h1>
+          <h1 className="mt-6 font-display text-6xl leading-tight drop-shadow-lg sm:text-8xl">
+            {wedding.partnerOne}
+            <span className="mx-3 font-light italic text-[#e6cf9f]">&</span>
+            {wedding.partnerTwo}
+          </h1>
 
-        <div className="my-8 h-px w-24 bg-gold" /> {/* Thin gold divider */}
+          <div className="my-8 h-px w-24 bg-[#e6cf9f]" /> {/* Thin gold divider */}
 
-        <p className="text-sm uppercase tracking-[0.3em]">{wedding.dateText}</p>
-        <p className="mt-2 text-ink/60">{wedding.venue}</p>
-        <p className="mt-4 font-display text-3xl italic text-gold">{wedding.hashtag}</p> {/* Wedding theme */}
+          <p className="text-sm uppercase tracking-[0.3em]">{wedding.dateText}</p>
+          <p className="mt-2 text-cream/75">{wedding.venue}</p>
+          <p className="mt-4 font-display text-3xl italic text-[#e6cf9f]">{wedding.hashtag}</p> {/* Wedding theme */}
 
-        <div className="mt-8">
-          <Countdown target={wedding.dateISO} /> {/* Live countdown */}
-        </div>
+          <div className="mt-8">
+            <Countdown target={wedding.dateISO} /> {/* Live countdown */}
+          </div>
 
-        <p className="mt-8 max-w-md text-ink/70">{wedding.welcome}</p>
+          <p className="mt-8 max-w-md text-cream/85">{wedding.welcome}</p>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href="/upload"
-            className="rounded-full bg-ink px-8 py-3 text-sm uppercase tracking-widest text-cream transition hover:bg-gold"
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/upload"
+              className="rounded-full bg-cream px-8 py-3 text-sm uppercase tracking-widest text-ink transition hover:bg-gold hover:text-cream"
+            >
+              Share your photos
+            </Link>
+            <Link
+              href="/gallery"
+              className="rounded-full border border-cream px-8 py-3 text-sm uppercase tracking-widest transition hover:border-gold hover:text-[#e6cf9f]"
+            >
+              View gallery
+            </Link>
+          </div>
+
+          <a
+            href={calendarLink}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 text-xs uppercase tracking-widest text-[#e6cf9f] underline"
           >
-            Share your photos
-          </Link>
-          <Link
-            href="/gallery"
-            className="rounded-full border border-ink px-8 py-3 text-sm uppercase tracking-widest transition hover:border-gold hover:text-gold"
-          >
-            View gallery
-          </Link>
+            Add to calendar
+          </a>
         </div>
-
-        <a
-          href={calendarLink}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-6 text-xs uppercase tracking-widest text-gold underline"
-        >
-          Add to calendar
-        </a>
       </section>
 
-      {/* Our story */}
+      {/* Our story, with the bride and groom animation on top */}
       <section className="bg-blush/40 px-6 py-16">
         <Reveal className="mx-auto max-w-2xl text-center">
+          <div className="mb-8"><WeddingAnimation /></div> {/* Bride and groom animation */}
           <Eyebrow>How it began</Eyebrow>
           <Title>Our story</Title>
           {wedding.story.map((paragraph, i) => (
@@ -234,8 +235,8 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* Gifts (hidden when gifts is null in config.js) */}
-      {/* {wedding.gifts && (
+      {/* Gifts (hidden when gifts is null in config.js)
+      {wedding.gifts && (
         <section className="bg-blush/40 px-6 py-16">
           <Reveal className="mx-auto max-w-md text-center">
             <Eyebrow>With gratitude</Eyebrow>

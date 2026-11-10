@@ -8,6 +8,16 @@ export const wedding = {
   calendarEnd: "20261205T200000Z", // End for "Add to calendar" in UTC
   venue: "Divine Heritage Event Center. 7 , Modasiru Close, Beside Estanza Royal Hotel, Ajuwon-Akute Road", // Short location under the date
   hashtag: "#Yusufied", // Wedding theme / hashtag
+
+  // Pre-wedding photos for the hero carousel (files are in public/hero). position = which part stays visible when a photo is cropped
+    heroPhotos: [
+    { src: "/hero/1.jpg", position: "center 5%" },
+    { src: "/hero/2.jpg", position: "center 5%" },
+    { src: "/hero/3.jpg", position: "center 5%" },
+    { src: "/hero/4.jpg", position: "center 5%" },
+    { src: "/hero/5.jpg", position: "center 5%" },
+    { src: "/hero/6.jpg", position: "center 5%" },
+    ],
   siteUrl: "https://yusufied.online", // Used by the QR code on the page
   welcome:
     "Thank you for celebrating with us. Share the photos and videos you take today so we can relive every moment.", // Hero message
@@ -48,8 +58,8 @@ export const wedding = {
 
   // Wedding party groups
   party: [
-    { role: "Bridal party", people: ["Name one", "Name two", "Name three"] },
-    { role: "Groomsmen", people: ["Name one", "Name two", "Name three"] },
+    { role: "Bridal party", people: ["Janet", "Ifedolapo", "Bolakunmi", "Taofeeqah", "Lafunky", "Ayooluwa", "Oluwakemi", "Mary", "Jumoke", "Maaruphiano", "Neemarh", "Mynah", "Jane", "Sarah", "Oluwadamilola", "Temmy"] },
+    { role: "Groomsmen", people: ["Gbolahan", "Hafizz", "Adedapo", "Torna", "Mujeeb", "Gbade", "Josh", "Ugonna", "Lanre", "Xino", "Idris"] },
   ],
 
   // Questions in "Good to know" (sample answers: edit them)
@@ -72,5 +82,5 @@ export const wedding = {
 //   },
 
   // Contact shown in the footer
-  contact: { name: "Wedding coordinator", phone: "+2348000000000" },
+  contact: { name: "Wedding coordinator (0deYours)", phone: "+234-706-4554-145" },
 };
