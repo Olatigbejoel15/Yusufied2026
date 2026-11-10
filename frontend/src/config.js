@@ -8,7 +8,7 @@ export const wedding = {
   calendarEnd: "20261205T200000Z", // End for "Add to calendar" in UTC
   venue: "Lagos, Nigeria", // Short location under the date
   hashtag: "#Yusufied", // Wedding theme / hashtag
-  siteUrl: "http://localhost:3000", // CHANGE to the real website address once it is hosted (used by the QR code)
+  siteUrl: "https://yusufied.online", // Used by the QR code on the page
   welcome:
     "Thank you for celebrating with us. Share the photos and videos you take today so we can relive every moment.", // Hero message
 
