@@ -297,7 +297,8 @@ export default function HomePage() {
             {wedding.contact.phone}
           </a>
         </p>
-        <p className="mt-6 text-xs text-cream/50">With love and gratitude</p>
+        <p className="mt-6 text-xs text-cream/50">With love and gratitude </p>
+        <p className="mt-6 text-xs text-cream/50">© 2026 All Rights Reserved. Yusufied2026</p>
       </footer>
     </main>
   );

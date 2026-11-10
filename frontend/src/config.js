@@ -30,17 +30,19 @@ export const wedding = {
 
   // Cards in "Meet the couple". photo: "" shows the first letter; or use "/bride.jpg" for a photo in the public folder
   couple: [
-    { role: "The bride", name: "Aminat", bio: "Short sentence about the bride.", photo: "" },
-    { role: "The groom", name: "Sodeeq", bio: "Short sentence about the groom.", photo: "" },
+    { role: "The bride", name: "Aminat", bio: "", photo: "" },
+    { role: "The groom", name: "Sodeeq", bio: "", photo: "" },
   ],
 
   // Rows for the "Order of the day" timeline
   schedule: [
-    { time: "1:00 PM", title: "Guest arrival", text: "Find your seat and enjoy welcome drinks." },
-    { time: "2:00 PM", title: "Ceremony", text: "The exchange of vows." },
-    { time: "4:00 PM", title: "Cocktail hour", text: "Drinks, music and photos with the couple." },
-    { time: "5:30 PM", title: "Reception", text: "Dinner, speeches and the first dance." },
-    { time: "8:00 PM", title: "Party time", text: "Dance the night away." },
+    { time: "11:30 AM", title: "Guest arrival", text: "Find your seat and enjoy welcome drinks." },
+    { time: "12:00 PM", title: "Engagement", text: "The exchange of vows." },
+    { time: "2:00 PM", title: "Reception", text: "Drinks, music and photos with the couple." },
+    { time: "4:00 PM", title: "Special Special", text: "Dinner, speeches and the first dance." },
+    { time: "6:00 PM", title: "After Party Unlocked ", text: "Dance the night away." },
+    { time: "8:00 PM", title: "Dance Dance Dance!!!", text: "The party continues until the last guest leaves." },
+
   ],
 
   // Cards in the "Venue" section (the address is used for the directions link)
@@ -51,10 +53,15 @@ export const wedding = {
 
   // Dress code card (colours are shown as small circles)
   dressCode: {
-    title: "Elegant formal",
-    text: "We would love to see you in olive, champagne, cream or earthy tones. Please avoid white.",
-    colors: ["#6b7340", "#b3924f", "#efe6cc", "#353a22"],
-  },
+  title: "Elegant formal",
+  text: "We would love to see you in olive, champagne, plum, dusty pink.",
+  colors: [
+    "#6b7340", // Olive
+    "#b3924f", // Champagne
+    "#8E4585", // Plum
+    "#D8A7A7", // Dusty Pink
+        ],
+    },
 
   // Wedding party groups
   party: [
