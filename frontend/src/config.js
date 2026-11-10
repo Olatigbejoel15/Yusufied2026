@@ -6,7 +6,7 @@ export const wedding = {
   dateISO: "2026-12-05T00:00:00+01:00", // Countdown target: 2:00 PM Lagos time (+01:00)
   calendarStart: "20261205T130000Z", // Start for "Add to calendar" in UTC (1 hour behind Lagos)
   calendarEnd: "20261205T200000Z", // End for "Add to calendar" in UTC
-  venue: "Lagos, Nigeria", // Short location under the date
+  venue: "Divine Heritage Event Center. 7 , Modasiru Close, Beside Estanza Royal Hotel, Ajuwon-Akute Road", // Short location under the date
   hashtag: "#Yusufied", // Wedding theme / hashtag
   siteUrl: "https://yusufied.online", // Used by the QR code on the page
   welcome:
@@ -35,8 +35,8 @@ export const wedding = {
 
   // Cards in the "Venue" section (the address is used for the directions link)
   venues: [
-    { label: "Ceremony", name: "Venue name here", address: "Street address, Lagos", time: "2:00 PM" },
-    { label: "Reception", name: "Venue name here", address: "Street address, Lagos", time: "5:30 PM" },
+    { label: "Engagement", name: "Divine Heritage Event Center", address: "7, Modasiru Close, Beside Estanza Royal Hotel, Ajuwon-Akute Road, Lagos", time: "11:00 AM" },
+    { label: "Reception", name: "Divine Heritage Event Center", address: "7, Modasiru Close, Beside Estanza Royal Hotel, Ajuwon-Akute Road, Lagos", time: "1:00 PM" },
   ],
 
   // Dress code card (colours are shown as small circles)

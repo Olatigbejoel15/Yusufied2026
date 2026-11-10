@@ -65,6 +65,15 @@ export default function UploadPage() {
   }
 
   const allDone = items.length > 0 && items.every((it) => it.status === "done"); // True when everything uploaded
+  // Until the API address is set on the live site, show a friendly notice instead of a broken form
+    if (!API) {
+    return (
+        <main className="px-4 py-16 text-center">
+        <h1 className="font-display text-4xl">Uploads open soon</h1>
+        <p className="mt-4 text-ink/70">Photo uploads will open on the wedding day. Please check back then.</p>
+        </main>
+    );
+    }
 
   return (
     <main className="px-4 py-10">
