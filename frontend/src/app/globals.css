@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Colour palette: olive + champagne gold. Used as bg-cream, text-gold, etc. */
+@theme inline {
+  --color-cream: #faf7ee; /* Page background: warm ivory */
+  --color-ink: #353a22; /* Main text and buttons: deep olive */
+  --color-gold: #b3924f; /* Accent: champagne gold */
+  --color-blush: #efe6cc; /* Soft champagne tint for backgrounds */
+  --color-sage: #7a8450; /* Success colour: olive green */
+  --color-olive: #6b7340; /* Spare mid-olive for later use */
+  --font-display: var(--font-cormorant); /* Elegant serif for headings */
+}
+
+body {
+  background: #faf7ee; /* Same as cream */
+  color: #353a22; /* Same as ink */
+  font-family: var(--font-jost), system-ui, sans-serif; /* Clean body font */
+}
