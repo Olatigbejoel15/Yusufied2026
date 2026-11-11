@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { getCode } from "../../lib/access"; // Reads the saved access code
 
 const API = process.env.NEXT_PUBLIC_API_URL; // Laravel API address from .env.local
 
@@ -31,6 +32,7 @@ export default function UploadPage() {
       const xhr = new XMLHttpRequest(); // XHR reports upload progress, fetch can't
       xhr.open("POST", `${API}/uploads`); // POST to the Laravel route
       xhr.setRequestHeader("Accept", "application/json"); // Ask for JSON errors
+      xhr.setRequestHeader("X-Access-Code", getCode()); // Proves the guest has the code
 
       xhr.upload.onprogress = (e) => {
         if (e.lengthComputable) {

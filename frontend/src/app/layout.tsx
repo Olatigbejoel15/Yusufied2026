@@ -22,6 +22,7 @@ const body = Jost({
 export const metadata: Metadata = {
   title: `${wedding.hashtag} | Wedding Photos`,
   description: "Share and view photos from our wedding day.",
+  robots: { index: false, follow: false }, // Asks search engines not to list the site
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiFetch } from "../lib/access";
 
 const API = process.env.NEXT_PUBLIC_API_URL; // Laravel API address from .env.local
 
@@ -11,10 +12,8 @@ export default function GalleryPreview() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`${API}/uploads?page=1`, {
-          headers: { Accept: "application/json" }, // Ask for JSON
-          cache: "no-store", // Always fresh data
-        });
+                const res = await apiFetch("/uploads?page=1"); // Sends the code if the visitor has one
+        if (!res.ok) return; // No valid code yet: show no photos on the public page
         const json = await res.json();
         setPhotos(json.data.filter((i) => i.type === "image").slice(0, 6)); // Newest 6 photos only
       } catch (e) {

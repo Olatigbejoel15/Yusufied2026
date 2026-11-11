@@ -12,7 +12,7 @@ class UploadController extends Controller
     public function index(): JsonResponse
     {
         return response()->json(
-            Upload::latest()->paginate(30) // 30 per page keeps the gallery fast
+            Upload::latest()->paginate(2) // 24 per batch fills 2, 3 and 4 column grids with no gaps
         );
     }
 

@@ -11,9 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'access.code' => \App\Http\Middleware\CheckAccessCode::class, // Short name used in routes/api.php
+        ]);
     })
+    
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

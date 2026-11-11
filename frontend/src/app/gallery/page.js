@@ -1,7 +1,8 @@
 "use client"; // Runs in the browser, needed for state and timers
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { apiFetch } from "../../lib/access"; // Adds the access code to requests
 
 const API = process.env.NEXT_PUBLIC_API_URL; // Laravel API address from .env.local
 
@@ -10,18 +11,23 @@ export default function GalleryPage() {
   const [page, setPage] = useState(1); // Last page we loaded
   const [hasMore, setHasMore] = useState(false); // True if Laravel has more pages
   const [loading, setLoading] = useState(true); // True until the first load finishes
+  const [loadingMore, setLoadingMore] = useState(false); // True while the next batch is loading
   const [total, setTotal] = useState(0); // Total uploads on the server
+  const sentinel = useRef(null); // Invisible marker near the bottom of the grid
 
   // Fetches one page of uploads from Laravel
+   // Fetches one page of uploads from Laravel
   async function fetchPage(p) {
-    const res = await fetch(`${API}/uploads?page=${p}`, {
-      headers: { Accept: "application/json" }, // Ask for JSON
-      cache: "no-store", // Always get fresh data, never a cached copy
-    });
+    const res = await apiFetch(`/uploads?page=${p}`); // The code header is added automatically
     return res.json();
   }
 
   useEffect(() => {
+    if (!API) {
+      setLoading(false); // No API address on this site yet, so skip loading
+      return;
+    }
+
     // First load: get page 1
     async function firstLoad() {
       try {
@@ -54,17 +60,38 @@ export default function GalleryPage() {
     return () => clearInterval(timer); // Stop the timer when leaving the page
   }, []);
 
-  // Loads the next page when the guest taps "Load more"
+  // Loads the next batch of older photos
   async function loadMore() {
-    const next = page + 1;
-    const json = await fetchPage(next);
-    setItems((prev) => {
-      const known = new Set(prev.map((i) => i.id)); // Avoid showing a photo twice
-      return [...prev, ...json.data.filter((i) => !known.has(i.id))]; // Older uploads go at the bottom
-    });
-    setPage(next); // Remember which page we are on
-    setHasMore(json.next_page_url !== null); // Is there still more?
+    if (loadingMore || !hasMore) return; // Ignore if already loading or nothing is left
+    setLoadingMore(true);
+    try {
+      const next = page + 1;
+      const json = await fetchPage(next);
+      setItems((prev) => {
+        const known = new Set(prev.map((i) => i.id)); // Avoid showing a photo twice
+        return [...prev, ...json.data.filter((i) => !known.has(i.id))]; // Older uploads go at the bottom
+      });
+      setPage(next); // Remember which page we are on
+      setHasMore(json.next_page_url !== null); // Is there still more?
+    } catch (e) {
+      console.error(e); // The button below lets the guest try again
+    }
+    setLoadingMore(false);
   }
+
+  // Watches the marker at the bottom and loads more when it is nearly on screen
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) loadMore(); // Marker is close: load the next batch
+      },
+      { rootMargin: "600px" } // Start loading 600px before the guest reaches the bottom
+    );
+    observer.observe(el);
+    return () => observer.disconnect(); // Re-created every render so it always uses fresh values
+  });
 
   return (
     <main className="px-3 py-10">
@@ -125,13 +152,17 @@ export default function GalleryPage() {
           ))}
         </div>
 
+        {/* Marker + backup button: reaching this loads the next batch automatically */}
         {hasMore && (
-          <button
-            onClick={loadMore}
-            className="mx-auto mt-8 block rounded-full border border-ink px-8 py-3 text-sm uppercase tracking-widest transition hover:border-gold hover:text-gold"
-          >
-            Load more
-          </button>
+          <div ref={sentinel} className="mt-8 text-center">
+            <button
+              onClick={loadMore}
+              disabled={loadingMore}
+              className="rounded-full border border-ink px-8 py-3 text-sm uppercase tracking-widest transition hover:border-gold hover:text-gold disabled:opacity-40"
+            >
+              {loadingMore ? "Loading..." : "Load more"}
+            </button>
+          </div>
         )}
       </div>
     </main>

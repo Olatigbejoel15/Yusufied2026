@@ -1,6 +1,8 @@
 "use client"; // Runs in the browser, needed for forms and state
 
 import { useEffect, useState } from "react";
+import AccessGate from "../../components/AccessGate"; // Asks for the code before the form is shown
+import { apiFetch, clearCode } from "../../lib/access"; // Talks to Laravel and adds the saved code
 
 const API = process.env.NEXT_PUBLIC_API_URL; // Laravel API address from .env.local
 
@@ -15,12 +17,9 @@ export default function WishesPage() {
   const [hasMore, setHasMore] = useState(false); // True if Laravel has more pages
   const [loading, setLoading] = useState(true); // True until the first load finishes
 
-  // Fetches one page of messages from Laravel
+  // Fetches one page of messages from Laravel (reading is public, no code needed)
   async function fetchPage(p) {
-    const res = await fetch(`${API}/messages?page=${p}`, {
-      headers: { Accept: "application/json" }, // Ask for JSON
-      cache: "no-store", // Always fresh data
-    });
+    const res = await apiFetch(`/messages?page=${p}`); // The code header is added automatically if saved
     return res.json();
   }
 
@@ -71,16 +70,16 @@ export default function WishesPage() {
     setHasMore(json.next_page_url !== null);
   }
 
-  // Sends the new message to Laravel
+  // Sends the new message to Laravel (this part needs the code)
   async function handleSubmit(e) {
     e.preventDefault(); // Stop the browser reloading the page
     setError("");
     setSent(false);
     setSending(true);
     try {
-      const res = await fetch(`${API}/messages`, {
+      const res = await apiFetch("/messages", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ guest_name: name, body }), // Field names Laravel expects
       });
       if (res.status === 201) {
@@ -88,6 +87,9 @@ export default function WishesPage() {
         setMessages((prev) => [created, ...prev]); // Show it on the wall straight away
         setBody(""); // Clear the text box (the name stays for another message)
         setSent(true);
+      } else if (res.status === 403) {
+        clearCode(); // The saved code is no longer valid, forget it
+        setError("The wedding code is no longer valid. Please refresh the page and enter it again.");
       } else if (res.status === 422) {
         const json = await res.json();
         setError(Object.values(json.errors)[0][0]); // First validation message from Laravel
@@ -117,41 +119,43 @@ export default function WishesPage() {
         <h1 className="mt-2 text-center font-display text-4xl sm:text-5xl">Wishes for the couple</h1>
         <div className="mx-auto my-5 h-px w-16 bg-gold" />
 
-        {/* Form card */}
-        <form onSubmit={handleSubmit} className="mx-auto max-w-md rounded-2xl border border-gold/20 bg-white p-5 shadow-sm">
-          <label className="block text-sm text-ink/70">Your name</label>
-          <input
-            type="text"
-            required
-            maxLength={100}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-gold/30 bg-cream px-4 py-3 text-base outline-none focus:border-gold"
-          />
+        {/* Form card: only shown once the guest has entered the code */}
+        <AccessGate inline title="Enter the wedding code to leave a message">
+          <form onSubmit={handleSubmit} className="mx-auto max-w-md rounded-2xl border border-gold/20 bg-white p-5 shadow-sm">
+            <label className="block text-sm text-ink/70">Your name</label>
+            <input
+              type="text"
+              required
+              maxLength={100}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 w-full rounded-lg border border-gold/30 bg-cream px-4 py-3 text-base outline-none focus:border-gold"
+            />
 
-          <label className="mt-4 block text-sm text-ink/70">Your message</label>
-          <textarea
-            required
-            rows={4}
-            maxLength={1000}
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            placeholder="Write something kind for the couple..."
-            className="mt-1 w-full rounded-lg border border-gold/30 bg-cream px-4 py-3 text-base outline-none focus:border-gold"
-          />
-          <p className="mt-1 text-right text-xs text-ink/50">{body.length}/1000</p>
+            <label className="mt-4 block text-sm text-ink/70">Your message</label>
+            <textarea
+              required
+              rows={4}
+              maxLength={1000}
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="Write something kind for the couple..."
+              className="mt-1 w-full rounded-lg border border-gold/30 bg-cream px-4 py-3 text-base outline-none focus:border-gold"
+            />
+            <p className="mt-1 text-right text-xs text-ink/50">{body.length}/1000</p>
 
-          {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-          {sent && <p className="mt-3 text-sm text-sage">Thank you! Your message has been added.</p>}
+            {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+            {sent && <p className="mt-3 text-sm text-sage">Thank you! Your message has been added.</p>}
 
-          <button
-            type="submit"
-            disabled={sending}
-            className="mt-4 w-full rounded-full bg-ink px-4 py-3 text-sm uppercase tracking-widest text-cream transition hover:bg-gold disabled:opacity-40"
-          >
-            {sending ? "Sending..." : "Send message"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={sending}
+              className="mt-4 w-full rounded-full bg-ink px-4 py-3 text-sm uppercase tracking-widest text-cream transition hover:bg-gold disabled:opacity-40"
+            >
+              {sending ? "Sending..." : "Send message"}
+            </button>
+          </form>
+        </AccessGate>
 
         {loading && <p className="mt-10 text-center text-ink/60">Loading...</p>}
 
@@ -159,7 +163,7 @@ export default function WishesPage() {
           <p className="mt-10 text-center text-ink/60">No messages yet. Be the first to write one.</p>
         )}
 
-        {/* Wall of messages: 1 column on phones, 2 on larger screens */}
+        {/* Wall of messages (public): 1 column on phones, 2 on larger screens */}
         <div className="mt-10 columns-1 gap-4 sm:columns-2">
           {messages.map((m) => (
             <div key={m.id} className="mb-4 break-inside-avoid rounded-2xl border border-gold/20 bg-white p-5 shadow-sm">
