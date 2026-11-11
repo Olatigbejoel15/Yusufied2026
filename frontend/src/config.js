@@ -30,8 +30,8 @@ export const wedding = {
 
   // Cards in "Meet the couple". photo: "" shows the first letter; or use "/bride.jpg" for a photo in the public folder
   couple: [
-    { role: "The bride", name: "Aminat", bio: "", photo: "" },
-    { role: "The groom", name: "Sodeeq", bio: "", photo: "" },
+    { role: "The bride", name: "Aminat", bio: "Brand Designer, Printer", photo: "" },
+    { role: "The groom", name: "Sodeeq", bio: "Civil Engineer", photo: "" },
   ],
 
   // Rows for the "Order of the day" timeline

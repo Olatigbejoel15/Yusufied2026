@@ -9,6 +9,7 @@ const links = [
   { href: "/", label: "Home", hideOnPhone: true }, // Logo already links home on phones
   { href: "/upload", label: "Upload" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/wishes", label: "Wishes" },
 ];
 
 export default function Navbar() {
@@ -18,11 +19,11 @@ export default function Navbar() {
     <header className="sticky top-0 z-20 border-b border-gold/20 bg-cream/90 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         {/* Names act as the logo and link home */}
-        <Link href="/" className="font-display text-gold text-xl tracking-wide">
-          {wedding.hashtag} {/* Wedding theme */}
+        <Link href="/" className="font-display text-xl tracking-wide">
+          {wedding.partnerOne} <span className="text-gold">&</span> {wedding.partnerTwo}
         </Link>
 
-        <ul className="flex gap-4 text-xs uppercase tracking-widest sm:gap-6 sm:text-sm">
+        <ul className="flex gap-3 text-[11px] uppercase tracking-wider sm:gap-6 sm:text-sm sm:tracking-widest">
           {links.map((l) => (
             <li key={l.href} className={l.hideOnPhone ? "hidden sm:block" : ""}>
               <Link
