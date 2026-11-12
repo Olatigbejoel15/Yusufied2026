@@ -8,6 +8,7 @@ import QrCard from "../components/QrCard";
 import Reveal from "../components/Reveal";
 import WeddingAnimation from "../components/WeddingAnimation";
 import { wedding } from "../config";
+import type { ReactNode } from "react";
 
 // The three "how it works" steps
 const steps = [
@@ -25,12 +26,12 @@ const calendarLink =
   `&details=${encodeURIComponent(wedding.hashtag)}`; // Hashtag in the description
 
 // Small gold heading used above each section title
-function Eyebrow({ children }) {
+function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="text-center text-xs uppercase tracking-[0.3em] text-gold">{children}</p>;
 }
 
 // Section title with a thin gold divider underneath
-function Title({ children }) {
+function Title({ children }: { children: ReactNode }) {
   return (
     <>
       <h2 className="mt-2 text-center font-display text-4xl sm:text-5xl">{children}</h2>
@@ -276,7 +277,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Gifts (hidden when gifts is null in config.js) */}
+      {/* Gifts (hidden when gifts is null in config.js)
       {wedding.gifts && (
         <section className="bg-blush/40 px-6 py-16">
           <Reveal className="mx-auto max-w-md text-center">
@@ -293,7 +294,7 @@ export default function HomePage() {
             </div>
           </Reveal>
         </section>
-      )}
+      )} */}
 
       {/* Share the day: how it works + QR code */}
       <section className="mx-auto max-w-5xl px-6 py-16">
