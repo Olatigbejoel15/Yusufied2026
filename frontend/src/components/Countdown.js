@@ -13,7 +13,7 @@ export default function Countdown({ target }) {
   }, [target]);
 
   if (left === null) return <div className="h-20" />; // Empty space while loading
-  if (left <= 0) return <p className="font-display text-2xl italic text-gold">The celebration has begun!</p>; // After the start time
+  if (left <= 0) return <p className="font-display text-2xl italic text-[#e6cf9f]">The celebration has begun!</p>; // After the start time
 
   const boxes = [
     ["Days", Math.floor(left / 86400000)], // 86,400,000 ms in a day
@@ -25,8 +25,11 @@ export default function Countdown({ target }) {
   return (
     <div className="flex gap-3 sm:gap-5">
       {boxes.map(([label, value]) => (
-        <div key={label} className="w-16 rounded-xl border border-gold/30 bg-white/70 py-3 text-center sm:w-20">
-          <p className="font-display text-3xl sm:text-4xl">{String(value).padStart(2, "0")}</p>
+        <div key={label} className="w-16 rounded-xl border border-gold/30 bg-white/85 py-3 text-center text-ink sm:w-20">
+          {/* key={value} restarts the drop-in animation whenever the number changes */}
+          <p key={value} className="tick font-display text-3xl sm:text-4xl">
+            {String(value).padStart(2, "0")}
+          </p>
           <p className="text-[10px] uppercase tracking-widest text-ink/60">{label}</p>
         </div>
       ))}

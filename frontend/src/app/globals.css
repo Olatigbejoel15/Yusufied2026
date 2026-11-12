@@ -15,4 +15,17 @@ body {
   background: #faf7ee; /* Same as cream */
   color: #353a22; /* Same as ink */
   font-family: var(--font-jost), system-ui, sans-serif; /* Clean body font */
+  overflow-x: clip; /* Safety net: nothing can make the page scroll sideways on phones */
+}
+
+/* A countdown number drops in softly each time it changes */
+@keyframes tick-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tick { animation: tick-in 0.35s ease-out; }
+
+/* Phones set to "reduce motion" get no animation */
+@media (prefers-reduced-motion: reduce) {
+  .tick { animation: none; }
 }
