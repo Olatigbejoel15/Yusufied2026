@@ -30,8 +30,8 @@ export const wedding = {
 
   // Cards in "Meet the couple". photo: "" shows the first letter; or use "/bride.jpg" for a photo in the public folder
   couple: [
-    { role: "The bride", name: "Aminat", bio: "Brand Designer, Printer", photo: "" },
-    { role: "The groom", name: "Sodeeq", bio: "Civil Engineer", photo: "" },
+    { role: "The bride", name: "Aminat", bio: "Print and Branding Director", photo: "" },
+    { role: "The groom", name: "Sodeeq", bio: "Builder/Real Estate Consultant", photo: "" },
   ],
 
   // Rows for the "Order of the day" timeline
@@ -66,7 +66,7 @@ export const wedding = {
   // Wedding party groups
   party: [
     { role: "Bridal party", people: ["Janet", "Ifedolapo", "Bolakunmi", "Taofeeqah", "Lafunky", "Ayooluwa", "Oluwakemi", "Mary", "Jumoke", "Maaruphiano", "Neemarh", "Mynah", "Jane", "Sarah", "Oluwadamilola", "Temmy"] },
-    { role: "Groomsmen", people: ["Gbolahan", "Hafizz", "Adedapo", "Torna", "Mujeeb", "Gbade", "Josh", "Ugonna", "Lanre", "Xino", "Idris"] },
+    { role: "Groomsmen", people: ["Gbolahan", "Phizzy", "Dapxy", "Torna", "Hemjay", "Gbade", "Josh", "Ugonna", "Lanre", "Xino", "Idris"] },
   ],
 
   // Questions in "Good to know" (sample answers: edit them)

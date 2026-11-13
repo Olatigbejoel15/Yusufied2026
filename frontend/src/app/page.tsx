@@ -56,7 +56,7 @@ export default function HomePage() {
         <div className="relative z-10 flex flex-col items-center"> {/* z-10 keeps the text above the photos */}
           <p className="text-xs uppercase tracking-[0.35em] text-[#e6cf9f]">Join us in celebrating</p>
 
-          <h1 className="mt-6 font-display text-6xl leading-tight drop-shadow-lg sm:text-8xl">
+          <h1 className="mt-6 font-display text-5xl leading-tight drop-shadow-lg sm:text-8xl">
             {wedding.partnerOne}
             <span className="mx-3 font-light italic text-[#e6cf9f]">&</span>
             {wedding.partnerTwo}
